@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>50 Aulas Prontas de MMA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15140F;
+    --panel:#1D1B15;
+    --panel-2:#242119;
+    --chalk:#EDE7D9;
+    --chalk-dim:#B8B0A0;
+    --fog:#87806f;
+    --red:#C1272D;
+    --red-dim:#8a1c21;
+    --gold:#C89B3C;
+    --gold-dim:#8f6d26;
+    --line: rgba(237,231,217,0.12);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--chalk);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  h1,h2,h3{
+    font-family:'Anton',sans-serif;
+    font-weight:400;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    margin:0;
+  }
+
+  .mono{
+    font-family:'JetBrains Mono',monospace;
+  }
+
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  a{color:inherit;}
+  :focus-visible{
+    outline:3px solid var(--gold);
+    outline-offset:3px;
+  }
+
+  /* ---------- texture helpers ---------- */
+  .canvas-bg{
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(237,231,217,0.045) 1px, transparent 0);
+    background-size:22px 22px;
+  }
+  .tape{
+    background:repeating-linear-gradient(45deg, rgba(237,231,217,0.08) 0 6px, transparent 6px 14px);
+  }
+
+  /* ---------- octagon shape ---------- */
+  .octagon{
+    clip-path: polygon(29% 0%, 71% 0%, 100% 29%, 100% 71%, 71% 100%, 29% 100%, 0% 71%, 0% 29%);
+  }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    border-bottom:1px solid var(--line);
+    padding:14px 0;
+  }
+  .topbar .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .topbar .brand{
+    font-family:'Anton',sans-serif;
+    font-size:15px;
+    letter-spacing:0.06em;
+    color:var(--chalk);
+  }
+  .topbar .brand span{color:var(--red);}
+  .topbar .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--fog);
+    text-transform:uppercase;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:88px 0 90px;
+    background:
+      radial-gradient(ellipse 900px 500px at 82% -10%, rgba(193,39,45,0.16), transparent 60%),
+      radial-gradient(ellipse 700px 400px at -5% 110%, rgba(200,155,60,0.10), transparent 60%),
+      var(--ink);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:radial-gradient(circle at 1px 1px, rgba(237,231,217,0.05) 1px, transparent 0);
+    background-size:24px 24px;
+    pointer-events:none;
+    mask-image:linear-gradient(180deg, black, transparent 85%);
+  }
+  .hero-grid{
+    position:relative;
+    display:grid;
+    grid-template-columns:1.25fr 0.85fr;
+    gap:48px;
+    align-items:center;
+  }
+  .hero-eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.09em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:22px;
+  }
+  .hero-eyebrow::before{
+    content:"";
+    width:7px;height:7px;
+    background:var(--red);
+    display:inline-block;
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1; transform:scale(1);}
+    50%{opacity:0.4; transform:scale(0.75);}
+  }
+  .hero h1{
+    font-size:clamp(40px, 6vw, 68px);
+    line-height:0.98;
+    color:var(--chalk);
+  }
+  .hero h1 .accent{color:var(--red);}
+  .hero-sub{
+    margin-top:22px;
+    font-size:18px;
+    line-height:1.55;
+    color:var(--chalk-dim);
+    max-width:52ch;
+  }
+  .hero-cta-row{
+    margin-top:34px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    flex-wrap:wrap;
+  }
+  .hero-note{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--fog);
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    font-size:14px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    text-decoration:none;
+    padding:17px 26px;
+    background:var(--red);
+    color:var(--chalk);
+    border:1px solid var(--red);
+    clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+    transition:transform .15s ease, background .15s ease;
+    cursor:pointer;
+  }
+  .btn:hover{
+    background:#a91f24;
+    transform:translateY(-2px);
+  }
+  .btn:active{transform:translateY(0);}
+  .btn .price{color:var(--chalk);}
+
+  /* hero badge / octagon */
+  .hero-badge-wrap{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+  }
+  @keyframes rise{
+    from{opacity:0; transform:translateY(18px) scale(.96);}
+    to{opacity:1; transform:translateY(0) scale(1);}
+  }
+  .hero-mockup{
+    position:relative;
+    width:100%;
+    max-width:460px;
+    padding:36px;
+    animation:rise .8s cubic-bezier(.2,.8,.2,1) both;
+  }
+  .hero-mockup::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 50% 45%, rgba(193,39,45,0.20), transparent 62%);
+    clip-path: polygon(29% 0%, 71% 0%, 100% 29%, 100% 71%, 71% 100%, 29% 100%, 0% 71%, 0% 29%);
+  }
+  .hero-mockup::after{
+    content:"";
+    position:absolute;
+    inset:24px;
+    border:1px dashed rgba(200,155,60,0.35);
+    clip-path: polygon(29% 0%, 71% 0%, 100% 29%, 100% 71%, 71% 100%, 29% 100%, 0% 71%, 0% 29%);
+  }
+  .hero-mockup img{
+    position:relative;
+    width:100%;
+    height:auto;
+    display:block;
+    filter:drop-shadow(0 24px 40px rgba(0,0,0,0.55));
+  }
+
+  /* ---------- generic section ---------- */
+  section{
+    padding:84px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .section-head{
+    max-width:640px;
+    margin-bottom:52px;
+  }
+  .section-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--red);
+    margin-bottom:14px;
+    display:block;
+  }
+  .section-head h2{
+    font-size:clamp(28px,3.6vw,40px);
+    color:var(--chalk);
+    line-height:1.05;
+  }
+  .section-head p{
+    margin-top:16px;
+    color:var(--chalk-dim);
+    font-size:16px;
+    line-height:1.6;
+  }
+
+  /* ---------- steps (O que é isso) ---------- */
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .step{
+    background:var(--ink);
+    padding:34px 28px;
+    position:relative;
+  }
+  .step .step-num{
+    font-family:'Anton',sans-serif;
+    font-size:44px;
+    color:transparent;
+    -webkit-text-stroke:1.5px var(--gold-dim);
+    line-height:1;
+    margin-bottom:18px;
+  }
+  .step h3{
+    font-size:19px;
+    color:var(--chalk);
+    margin-bottom:10px;
+    letter-spacing:0.01em;
+  }
+  .step p{
+    font-size:14.5px;
+    color:var(--chalk-dim);
+    line-height:1.55;
+    margin:0;
+  }
+
+  /* ---------- blocos (5 categorias) ---------- */
+  .blocos{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:16px;
+  }
+  .bloco{
+    background:var(--panel);
+    border:1px solid var(--line);
+    padding:26px 22px 24px;
+    position:relative;
+    overflow:hidden;
+  }
+  .bloco::before{
+    content:"";
+    position:absolute;
+    top:0; left:0;
+    width:100%;
+    height:5px;
+  }
+  .bloco:nth-child(1)::before{background:var(--red);}
+  .bloco:nth-child(2)::before{background:var(--gold);}
+  .bloco:nth-child(3)::before{background:var(--red);}
+  .bloco:nth-child(4)::before{background:var(--gold);}
+  .bloco:nth-child(5)::before{background:var(--red);}
+  .bloco .count{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--fog);
+    text-transform:uppercase;
+    margin-bottom:14px;
+    display:block;
+  }
+  .bloco h3{
+    font-size:18px;
+    color:var(--chalk);
+    line-height:1.15;
+    margin-bottom:10px;
+  }
+  .bloco p{
+    font-size:14px;
+    color:var(--chalk-dim);
+    line-height:1.55;
+    margin:0;
+  }
+  .bloco-detail{
+    margin-top:24px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    font-size:14px;
+    color:var(--chalk-dim);
+    line-height:1.6;
+  }
+  .bloco-detail strong{color:var(--gold);}
+
+  /* ---------- pra quem (checklist) ---------- */
+  .check-panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    padding:44px;
+  }
+  .check-list{
+    list-style:none;
+    margin:0; padding:0;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px 40px;
+  }
+  .check-list li{
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+    font-size:15.5px;
+    color:var(--chalk);
+    line-height:1.5;
+  }
+  .check-mark{
+    flex:0 0 auto;
+    width:20px; height:20px;
+    border:1px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    margin-top:2px;
+  }
+  .check-mark::after{
+    content:"✓";
+    color:var(--gold);
+    font-size:12px;
+    line-height:1;
+  }
+
+  /* ---------- como funciona ---------- */
+  .funciona{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+  }
+  .funciona-item{
+    text-align:left;
+  }
+  .funciona-mark{
+    width:44px;height:44px;
+    border:1px solid var(--red);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    color:var(--red);
+    margin-bottom:18px;
+    clip-path: polygon(29% 0%, 71% 0%, 100% 29%, 100% 71%, 71% 100%, 29% 100%, 0% 71%, 0% 29%);
+  }
+  .funciona-item h3{
+    font-size:17px;
+    color:var(--chalk);
+    margin-bottom:8px;
+  }
+  .funciona-item p{
+    font-size:14.5px;
+    color:var(--chalk-dim);
+    line-height:1.55;
+    margin:0;
+  }
+
+  /* ---------- o que voce recebe ---------- */
+  .receive-panel{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0;
+    border:1px solid var(--line);
+  }
+  .receive-list{
+    list-style:none;
+    margin:0; padding:32px 36px;
+    border-right:1px solid var(--line);
+  }
+  .receive-list li{
+    padding:13px 0;
+    border-bottom:1px solid var(--line);
+    font-size:15px;
+    color:var(--chalk);
+    display:flex;
+    gap:12px;
+  }
+  .receive-list li:last-child{border-bottom:none;}
+  .receive-list li::before{
+    content:"—";
+    color:var(--red);
+    flex:0 0 auto;
+  }
+  .receive-visual{
+    background:var(--panel);
+    padding:32px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:18px;
+  }
+  .receive-visual .big-num{
+    font-family:'Anton',sans-serif;
+    font-size:88px;
+    line-height:0.9;
+    color:var(--chalk);
+  }
+  .receive-visual .big-num .unit{
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px;
+    color:var(--gold);
+    display:block;
+    letter-spacing:0.1em;
+    margin-top:10px;
+    text-transform:uppercase;
+  }
+  .receive-visual .sub-stat{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    color:var(--fog);
+    letter-spacing:0.04em;
+  }
+
+  /* ---------- bonus ---------- */
+  .bonus-section{
+    background:
+      radial-gradient(ellipse 700px 400px at 50% 0%, rgba(200,155,60,0.12), transparent 65%),
+      var(--ink);
+  }
+  .bonus-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+  }
+  .bonus-card{
+    position:relative;
+    background:linear-gradient(160deg, var(--panel-2), var(--panel));
+    border:1.5px solid var(--gold);
+    padding:34px 30px 28px;
+    box-shadow:0 0 0 1px rgba(200,155,60,0.15), 0 18px 40px -14px rgba(200,155,60,0.35);
+    overflow:hidden;
+  }
+  .bonus-card::before{
+    content:"";
+    position:absolute;
+    top:0; left:0;
+    width:100%;
+    height:4px;
+    background:linear-gradient(90deg, var(--gold), var(--red));
+  }
+  .bonus-card::after{
+    content:"GRÁTIS";
+    position:absolute;
+    top:16px;
+    right:-34px;
+    width:130px;
+    text-align:center;
+    transform:rotate(40deg);
+    background:var(--red);
+    color:var(--chalk);
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:0.08em;
+    padding:4px 0;
+    box-shadow:0 2px 8px rgba(0,0,0,0.4);
+  }
+  .bonus-badge{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    color:var(--ink);
+    background:var(--gold);
+    padding:5px 10px;
+    margin-bottom:18px;
+    text-transform:uppercase;
+  }
+  .bonus-card h3{
+    font-size:20px;
+    color:var(--chalk);
+    margin-bottom:10px;
+    line-height:1.2;
+    padding-right:34px;
+  }
+  .bonus-card p{
+    font-size:14.5px;
+    color:var(--chalk-dim);
+    line-height:1.55;
+    margin:0 0 20px;
+  }
+  .bonus-price{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+  }
+  .bonus-price .val{
+    text-decoration:line-through;
+    color:var(--fog);
+  }
+  .bonus-price .tag{
+    color:var(--gold);
+    font-weight:700;
+  }
+
+  /* ---------- oferta final ---------- */
+  #oferta{
+    padding-top:90px;
+    padding-bottom:100px;
+    background:
+      radial-gradient(ellipse 800px 500px at 50% 0%, rgba(193,39,45,0.14), transparent 65%),
+      var(--ink);
+  }
+  .offer-panel{
+    max-width:640px;
+    margin:0 auto;
+    background:var(--panel);
+    border:1px solid var(--line);
+    padding:56px 48px;
+    text-align:center;
+  }
+  .offer-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--red);
+    margin-bottom:18px;
+    display:block;
+  }
+  .offer-prices{
+    display:flex;
+    align-items:baseline;
+    justify-content:center;
+    gap:16px;
+    margin-bottom:8px;
+  }
+  .offer-prices .old{
+    font-family:'JetBrains Mono',monospace;
+    font-size:20px;
+    color:var(--fog);
+    text-decoration:line-through;
+  }
+  .offer-prices .new{
+    font-family:'Anton',sans-serif;
+    font-size:64px;
+    color:var(--chalk);
+  }
+  .offer-note{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    color:var(--chalk-dim);
+    margin-bottom:36px;
+  }
+  .offer-list{
+    list-style:none;
+    margin:0 0 38px;
+    padding:0;
+    text-align:left;
+    display:grid;
+    gap:11px;
+  }
+  .offer-list li{
+    display:flex;
+    gap:12px;
+    font-size:14.5px;
+    color:var(--chalk);
+    line-height:1.45;
+  }
+  .offer-list li::before{
+    content:"✓";
+    color:var(--gold);
+    font-weight:700;
+    flex:0 0 auto;
+  }
+  .offer-panel .btn{
+    width:100%;
+    justify-content:center;
+    font-size:15px;
+    padding:19px 26px;
+  }
+  .guarantee{
+    margin-top:22px;
+    font-size:13px;
+    color:var(--fog);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+
+  footer{
+    padding:36px 0 48px;
+    text-align:center;
+  }
+  footer p{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--fog);
+    line-height:1.7;
+    max-width:520px;
+    margin:0 auto;
+  }
+  footer a{
+    color:var(--gold);
+    text-decoration:none;
+  }
+  footer a:hover{text-decoration:underline;}
+
+  .reveal{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .reveal.in{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr; gap:44px;}
+    .hero-badge-wrap{order:-1;}
+    .hero-mockup{max-width:320px; padding:20px;}
+    .steps{grid-template-columns:1fr;}
+    .funciona{grid-template-columns:1fr;}
+    .check-list{grid-template-columns:1fr;}
+    .receive-panel{grid-template-columns:1fr;}
+    .receive-list{border-right:none; border-bottom:1px solid var(--line);}
+    .bonus-grid{grid-template-columns:1fr;}
+    .offer-panel{padding:40px 26px;}
+    .offer-prices .new{font-size:48px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand">50 AULAS<span>·</span>MMA</div>
+    <div class="eyebrow">Material imprimível para professores</div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="hero-eyebrow">50 aulas · Entrega imediata</span>
+      <h1>50 Aulas Prontas de MMA — Chegou no <span class="accent">Octógono</span>, É Só Aplicar</h1>
+      <p class="hero-sub">Sequências de striking, solo e transições organizadas por categoria técnica. Você imprime o roteiro e aplica sem montar plano de aula do zero.</p>
+      <div class="hero-cta-row">
+        <a href="#oferta" class="btn">Quero as 50 aulas <span class="price">— R$ 9,90</span> →</a>
+        <span class="hero-note">Pagamento único · PDF na hora</span>
+      </div>
+    </div>
+    <div class="hero-badge-wrap">
+      <div class="hero-mockup">
+        <img src="mockup.png" alt="Mockup do produto: apostilas impressas, notebook, tablet e celular mostrando as 50 Aulas de MMA">
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="canvas-bg">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">O que é isso</span>
+      <h2>Não é apostila técnica solta.<br>É o roteiro pronto do treino.</h2>
+      <p>As 50 Aulas Prontas de MMA trazem roteiro completo — aquecimento, sequência de striking ou solo e transição de fase de luta — organizados por categoria técnica.</p>
+    </div>
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Abre o roteiro do dia</h3>
+        <p>Aula estruturada do aquecimento à dinâmica final.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Aplica a sequência de técnica</h3>
+        <p>Striking, queda ou transição, passo a passo.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Fecha com a dinâmica guiada</h3>
+        <p>Fixação através de exercício ou sparring técnico controlado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">O que vem nas 50 aulas</span>
+      <h2>5 blocos temáticos, 10 aulas em cada um</h2>
+      <p>Cada aula: aquecimento específico, sequência técnica passo a passo e dinâmica de fixação.</p>
+    </div>
+    <div class="blocos reveal">
+      <div class="bloco">
+        <span class="count">Bloco 01 · 10 aulas</span>
+        <h3>Striking Aplicado</h3>
+        <p>Combinações de mão e perna adaptadas pro contexto do MMA.</p>
+      </div>
+      <div class="bloco">
+        <span class="count">Bloco 02 · 10 aulas</span>
+        <h3>Quedas e Defesa de Queda</h3>
+        <p>Técnicas de levar a luta pro chão e evitar ser derrubado.</p>
+      </div>
+      <div class="bloco">
+        <span class="count">Bloco 03 · 10 aulas</span>
+        <h3>Solo e Transições</h3>
+        <p>Passagem entre posições e controle no chão.</p>
+      </div>
+      <div class="bloco">
+        <span class="count">Bloco 04 · 10 aulas</span>
+        <h3>Finalizações Básicas</h3>
+        <p>Chaves e estrangulamentos fundamentais.</p>
+      </div>
+      <div class="bloco">
+        <span class="count">Bloco 05 · 10 aulas</span>
+        <h3>Condicionamento para MMA</h3>
+        <p>Circuitos específicos de resistência pra luta completa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="canvas-bg">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Pra quem é</span>
+      <h2>Se você se reconhece em algum desses pontos, o material é pra você.</h2>
+    </div>
+    <div class="check-panel reveal">
+      <ul class="check-list">
+        <li><span class="check-mark"></span>Passa tempo planejando sequência técnica antes de cada aula.</li>
+        <li><span class="check-mark"></span>Dá aula pra alunos de nível técnico diferente.</li>
+        <li><span class="check-mark"></span>Quer progressão clara entre as fases da luta — em pé, na queda e no chão.</li>
+        <li><span class="check-mark"></span>Trabalha em academia de MMA ou equipe de luta.</li>
+        <li><span class="check-mark"></span>Precisa de roteiro pronto pra substituir outro professor em cima da hora.</li>
+        <li><span class="check-mark"></span>Quer treino completo, não só striking ou só solo isolado.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Como funciona</span>
+      <h2>Do pagamento ao roteiro impresso</h2>
+    </div>
+    <div class="funciona reveal">
+      <div class="funciona-item">
+        <div class="funciona-mark">1</div>
+        <h3>Compra</h3>
+        <p>Pagamento único, recebe o PDF na hora.</p>
+      </div>
+      <div class="funciona-item">
+        <div class="funciona-mark">2</div>
+        <h3>Escolhe</h3>
+        <p>Selecione o bloco técnico da aula.</p>
+      </div>
+      <div class="funciona-item">
+        <div class="funciona-mark">3</div>
+        <h3>Aplica</h3>
+        <p>Imprime e aplica — o roteiro já vem pronto do início ao fim.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="canvas-bg">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">O que você recebe</span>
+      <h2>Tudo organizado, tudo pronto pra imprimir</h2>
+    </div>
+    <div class="receive-panel reveal">
+      <ul class="receive-list">
+        <li>50 aulas completas em PDF, organizadas por categoria técnica</li>
+        <li>5 blocos temáticos, 10 aulas cada</li>
+        <li>Aquecimento específico e sequência técnica passo a passo em cada aula</li>
+        <li>Dinâmica de fixação por aula</li>
+        <li>Formato A4, pronto pra impressão ou uso em tela</li>
+      </ul>
+      <div class="receive-visual">
+        <div class="big-num">A4<span class="unit">Formato de impressão</span></div>
+        <div class="sub-stat">// impressão ou uso em tela</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bonus-section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-tag">Bônus inclusos</span>
+      <h2>Dois materiais extras, sem custo adicional</h2>
+    </div>
+    <div class="bonus-grid reveal">
+      <div class="bonus-card">
+        <span class="bonus-badge">Bônus 01</span>
+        <h3>Guia de Transições Entre Fases da Luta</h3>
+        <p>Sequências extras de transição entre striking, queda e solo, pra conectar as fases da luta com mais fluidez no treino.</p>
+        <div class="bonus-price"><span class="val">R$ 19,90</span><span class="tag">Incluso no material</span></div>
+      </div>
+      <div class="bonus-card">
+        <span class="bonus-badge">Bônus 02</span>
+        <h3>Ficha de Avaliação de Aluno para Imprimir</h3>
+        <p>Ficha imprimível pra registrar a evolução técnica de cada aluno ao longo do tempo, nas diferentes fases da luta.</p>
+        <div class="bonus-price"><span class="val">R$ 14,90</span><span class="tag">Incluso no material</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="oferta" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="offer-panel reveal">
+      <span class="offer-tag">Oferta final</span>
+      <div class="offer-prices">
+        <span class="old">R$ 54,70</span>
+        <span class="new">R$ 9,90</span>
+      </div>
+      <div class="offer-note">pagamento único</div>
+      <ul class="offer-list">
+        <li>50 aulas completas de MMA em PDF</li>
+        <li>Bloco Striking Aplicado — 10 aulas completas</li>
+        <li>Bloco Quedas e Defesa de Queda — 10 aulas completas</li>
+        <li>Bloco Solo e Transições — 10 aulas completas</li>
+        <li>Bloco Finalizações Básicas — 10 aulas completas</li>
+        <li>Bloco Condicionamento para MMA — 10 aulas completas</li>
+        <li>Aquecimento e sequência técnica passo a passo em cada aula</li>
+        <li>Formato A4, pronto pra impressão ou uso em tela</li>
+        <li>Bônus 1 — Guia de Transições Entre Fases da Luta</li>
+        <li>Bônus 2 — Ficha de Avaliação de Aluno</li>
+        <li>Entrega imediata por e-mail</li>
+        <li>Garantia incondicional de 7 dias</li>
+      </ul>
+      <a href="https://pay.cakto.com.br/3dhoz2s_1067359" class="btn">Quero as 50 aulas — R$ 9,90 →</a>
+      <div class="guarantee">🛡️ Garantia de 7 dias. Não gostou, o dinheiro volta — sem burocracia.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Este material é um recurso pedagógico de apoio ao ensino de MMA. Garantia incondicional de 7 dias.<br>
+    <a href="https://pay.cakto.com.br/3dhoz2s_1067359">Acessar checkout →</a></p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+      return;
+    }
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)){
+      els.forEach(function(el){ el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(function(el){ io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
